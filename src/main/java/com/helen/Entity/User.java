@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -57,7 +56,7 @@ public class User {
 	@Column(name = "id_rol")
 	private Long idRol;
 
-	@ManyToOne
+	@OneToMany()
 	@JoinColumn(name = "id_rol")
 	private Rol rol;
 	
