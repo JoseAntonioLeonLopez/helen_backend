@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -56,17 +57,17 @@ public class User {
 	@Column(name = "id_rol")
 	private Long idRol;
 
-	@OneToMany()
-	@JoinColumn(name = "id_rol")
+	@ManyToOne
+	@JoinColumn()
 	private Rol rol;
 	
 	//Lista seguidores
 	@OneToMany(mappedBy = "follower")
-	private List<User> follower;
+	private List<UserFollow> follower;
 	
 	//Lista usuarios seguidos
-	@OneToMany(mappedBy = "follower")
-	private List<User> followed;
+	@OneToMany(mappedBy = "followed")
+	private List<UserFollow> followed;
 
 	
 }

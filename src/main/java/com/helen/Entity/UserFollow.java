@@ -39,12 +39,12 @@ public class UserFollow {
 	
 	//Seguidores
 	@ManyToOne
-	@JoinColumn(name = "user_follow")
+	@JoinColumn()
 	private User follower;
 	
 	//Seguidos
 	@ManyToOne
-	@JoinColumn(name = "user_followed")
+	@JoinColumn()
 	private User followed;
 	
 	
