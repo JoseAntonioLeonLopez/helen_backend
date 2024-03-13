@@ -69,5 +69,16 @@ public class User {
 	@OneToMany(mappedBy = "followed")
 	private List<UserFollow> followed;
 
+	//Lista de publicaciones
+	@OneToMany(mappedBy = "usersPublication")
+	private List<Publication> usersPublications;
+	
+	//Lista publicaciones me gusta
+	@OneToMany(mappedBy = "user")
+	private List<UserFav> favoritePublications;
+	
+	//Lista de comentarios
+	@OneToMany(mappedBy = "user")
+	private List<Comment> comments;
 	
 }
