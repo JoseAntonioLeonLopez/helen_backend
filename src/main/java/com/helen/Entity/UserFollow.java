@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,15 +29,23 @@ public class UserFollow {
 	@Column(name = "follow_date")
 	private Date followDate;
 	
-	@ManyToMany
-	@JoinColumn()
+	//Seguidores
 	@Column(name = "user_follow")
-	private User userFollow;
-	
-	@ManyToMany
-	@JoinColumn()
+	private Long fkUserFollow;
+
+	//Seguidos
 	@Column(name = "user_followed")
-	private User userFollowed;
+	private Long fkUserFollowed;
+	
+	//Seguidores
+	@ManyToOne
+	@JoinColumn()
+	private User follower;
+	
+	//Seguidos
+	@ManyToOne
+	@JoinColumn()
+	private User followed;
 	
 	
 	
