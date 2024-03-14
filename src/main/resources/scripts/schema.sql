@@ -1,7 +1,7 @@
--- Crear tabla Rol si no existe
-CREATE TABLE IF NOT EXISTS Rol (
-    id_rol INT AUTO_INCREMENT PRIMARY KEY,
-    rol VARCHAR(20) NOT NULL UNIQUE,
+-- Crear tabla Role si no existe
+CREATE TABLE IF NOT EXISTS Role (
+    id_role INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(20) NOT NULL UNIQUE,
     description VARCHAR(255) NOT NULL
 );
 
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS User (
     phone_number VARCHAR(15) UNIQUE,
     image_user LONGBLOB,
     city VARCHAR(100) NOT NULL,
-    id_rol INT NOT NULL,
-    FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
+    id_role INT NOT NULL,
+    FOREIGN KEY (id_role) REFERENCES Role(id_role)
 );
 
 -- Crear tabla User_follow si no existe

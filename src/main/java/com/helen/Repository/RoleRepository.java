@@ -2,8 +2,8 @@ package com.helen.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.helen.Entity.Rol;
+import com.helen.Entity.Role;
 
-public interface RolRepository extends JpaRepository<Rol, Long>{
+public interface RoleRepository extends JpaRepository<Role, Long>{
 
 }

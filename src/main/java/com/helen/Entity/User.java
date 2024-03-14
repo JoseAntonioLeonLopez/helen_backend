@@ -54,12 +54,12 @@ public class User {
 	
 	private String city;
 	
-	@Column(name = "id_rol")
-	private Long idRol;
+	@Column(name = "id_role")
+	private Long idRole;
 
 	@ManyToOne
 	@JoinColumn()
-	private Rol rol;
+	private Role role;
 	
 	//Lista seguidores
 	@OneToMany(mappedBy = "follower")

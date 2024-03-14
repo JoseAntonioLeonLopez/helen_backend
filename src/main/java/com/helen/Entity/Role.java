@@ -17,19 +17,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Rol")
-public class Rol {
+@Table(name = "Role")
+public class Role {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "id_rol")
-	private Long idRol;
+	@Column(name = "id_role")
+	private Long idRole;
 	
-	private String rol;
+	private String role;
 	
 	private String description;
 	
 	//Lista de usuarios segun el rol
-	@OneToMany(mappedBy = "rol")
+	@OneToMany(mappedBy = "role")
 	private List<User> users;
 }
