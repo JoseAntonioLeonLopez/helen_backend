@@ -34,8 +34,11 @@ public class PublicationService {
         return publicationRepository.save(publication);
     }
 
-    public void removePublication(Long id) {
-    	publicationRepository.deleteById(id);
+    public boolean removePublication(Long id) {
+    	return getPublication(id).map(publication -> {
+			publicationRepository.deleteById(id);
+			return true;
+		}).orElse(false);
     }
 	
 }

@@ -34,8 +34,11 @@ public class UserFollowService {
         return userFollowService.save(userFollow);
     }
 
-    public void removeUserFollow(Long id) {
-    	userFollowService.deleteById(id);
+    public boolean removeUserFollow(Long id) {
+    	return getUserFollow(id).map(userFollow -> {
+			userFollowService.deleteById(id);
+			return true;
+		}).orElse(false);
     }
 	
 }

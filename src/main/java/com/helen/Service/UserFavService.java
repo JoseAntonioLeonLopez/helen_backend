@@ -34,8 +34,11 @@ public class UserFavService {
         return userFavRepository.save(userFav);
     }
 
-    public void removeUserFav(Long id) {
-    	userFavRepository.deleteById(id);
+    public boolean removeUserFav(Long id) {
+    	return getUserFav(id).map(userFav -> {
+			userFavRepository.deleteById(id);
+			return true;
+		}).orElse(false);
     }
 	
 }

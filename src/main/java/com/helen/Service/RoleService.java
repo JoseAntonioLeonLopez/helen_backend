@@ -34,8 +34,11 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
-    public void removeRole(Long id) {
-    	roleRepository.deleteById(id);
+    public boolean removeRole(Long id) {
+    	return getRole(id).map(role -> {
+			roleRepository.deleteById(id);
+			return true;
+		}).orElse(false);
     }
 	
 }
