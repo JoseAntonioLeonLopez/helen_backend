@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -58,7 +58,7 @@ public class User {
 	private Long idRole;
 
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(referencedColumnName = "id_role")
 	private Role role;
 	
 	//Lista seguidores
