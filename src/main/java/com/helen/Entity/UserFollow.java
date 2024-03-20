@@ -2,6 +2,8 @@ package com.helen.Entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,13 +40,15 @@ public class UserFollow {
 	private Long fkUserFollowed;
 	
 	//Seguidores
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "user_follow", insertable = false, updatable = false)
+	@JoinColumn(name = "user_follow", referencedColumnName = "id_user", insertable = false, updatable = false)
 	private User follower;
 	
 	//Seguidos
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "user_followed", insertable = false, updatable = false)
+	@JoinColumn(name = "user_followed", referencedColumnName = "id_user", insertable = false, updatable = false)
 	private User followed;
 	
 	

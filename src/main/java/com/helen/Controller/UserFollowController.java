@@ -48,7 +48,7 @@ public class UserFollowController {
 	public ResponseEntity<UserFollow> updateUserFollow(@RequestBody UserFollow userFollow, @PathVariable("id") Long id) {
 		if(id == userFollow.getIdUserFollow()) {
 			return userFollowService.getUserFollow(id)
-			    	.map(userFollowDB -> new ResponseEntity<>(userFollowService.addUserFollow(userFollow), HttpStatus.OK))
+			    	.map(userFollowDB -> new ResponseEntity<>(userFollowService.updateUserFollow(userFollow), HttpStatus.OK))
 			    	.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

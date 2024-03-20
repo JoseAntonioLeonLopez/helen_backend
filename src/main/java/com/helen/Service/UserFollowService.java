@@ -1,5 +1,6 @@
 package com.helen.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +27,27 @@ public class UserFollowService {
         return userFollowService.findById(id);
     }
 
-    public UserFollow addUserFollow(UserFollow userFollow) {
-        return userFollowService.save(userFollow);
-    }
+	public UserFollow addUserFollow(UserFollow userFollow) {
+	    if (userFollow.getFkUserFollow() == userFollow.getFkUserFollowed()) {
+	        throw new IllegalArgumentException("No se puede seguir a uno mismo");
+	    }
+	    
+	    userFollow.setFollowDate(new Date());
+	    
+	    return userFollowService.save(userFollow);
+	}
 
-    public UserFollow updateUserFollow(UserFollow userFollow) {
-        return userFollowService.save(userFollow);
-    }
+
+	public UserFollow updateUserFollow(UserFollow userFollow) {
+	    if (!userFollowService.existsById(userFollow.getIdUserFollow())) {
+	        throw new IllegalArgumentException("No se puede actualizar, el UserFollow no existe.");
+	    }
+	    
+	    userFollow.setFollowDate(new Date());
+	    
+	    return userFollowService.save(userFollow);
+	}
+
 
     public boolean removeUserFollow(Long id) {
     	return getUserFollow(id).map(userFollow -> {

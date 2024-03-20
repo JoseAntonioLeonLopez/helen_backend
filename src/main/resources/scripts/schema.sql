@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS user_follow (
     id_user_follow INT AUTO_INCREMENT PRIMARY KEY,
     user_follow INT NOT NULL,
     user_followed INT NOT NULL,
-    follow_date DATETIME NOT NULL DEFAULT NOW(),
+    follow_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_follow) REFERENCES user(id_user),
     FOREIGN KEY (user_followed) REFERENCES user(id_user),
     CONSTRAINT UNIQUE_FOLLOW UNIQUE (user_follow, user_followed)
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS publication (
     image LONGBLOB NOT NULL,
     title VARCHAR(50) NOT NULL,
     description TEXT,
-    created_date DATETIME NOT NULL DEFAULT NOW(),
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     city VARCHAR(100) NOT NULL,
     favorite INT NOT NULL DEFAULT 0,
     id_user INT NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS user_fav (
 CREATE TABLE IF NOT EXISTS comment (
     id_comment INT AUTO_INCREMENT PRIMARY KEY,
     comment VARCHAR(255) NOT NULL,
-    created_date DATETIME NOT NULL DEFAULT NOW(),
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_user INT NOT NULL,
     id_publication INT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user(id_user),
