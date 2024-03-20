@@ -49,7 +49,7 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long id) {
 		if(id == user.getIdUser()) {
 			return userService.getUser(id)
-			    	.map(userDB -> new ResponseEntity<>(userService.addUser(user), HttpStatus.OK))
+			    	.map(userDB -> new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK))
 			    	.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

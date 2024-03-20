@@ -28,13 +28,21 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User addUser(User user) {
-        return userRepository.save(user);
-    }
+	public User addUser(User user) {
+	    if (userRepository.findByEmail(user.getEmail()) != null) {
+	        throw new IllegalStateException("Ya existe un User con este email: " + user.getEmail());
+	    }
+	    
+	    return userRepository.save(user);
+	}
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
+	public User updateUser(User user) {
+	    if (userRepository.findById(user.getIdUser()).isEmpty()) {
+	        throw new IllegalArgumentException("No se puede actualizar, el User no existe.");
+	    }
+	    
+	    return userRepository.save(user);
+	}
 
     public boolean removeUser(Long id) {
     	return getUser(id).map(user -> {

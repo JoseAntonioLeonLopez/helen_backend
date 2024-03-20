@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class UserFav {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user_fav")
 	private Long idUserFav;
 	
@@ -32,10 +32,10 @@ public class UserFav {
 	private Long fkPublication;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "id_user", insertable = false, updatable = false)
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "id_publication", insertable = false, updatable = false)
 	private Publication publication;
 }

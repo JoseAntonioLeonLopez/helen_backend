@@ -6,4 +6,6 @@ import com.helen.Entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
+	//Buscar por email
+	User findByEmail(String email);
 }

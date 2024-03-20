@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Publication {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_publication")
 	private Long idPublication;
 	
@@ -50,7 +50,7 @@ public class Publication {
 	private Long fkUser;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "id_user", insertable = false, updatable = false)
 	private User usersPublication;
 	
 	//Lista de me gustas

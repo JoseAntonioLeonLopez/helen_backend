@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
 	private Long idUser;
 	
@@ -57,7 +57,7 @@ public class User {
 	private String city;
 	
 	@Column(name = "id_role")
-	private Long idRole;
+	private Long fkRole;
 
 	@ManyToOne
 	@JoinColumn(name = "id_role", insertable = false, updatable = false)

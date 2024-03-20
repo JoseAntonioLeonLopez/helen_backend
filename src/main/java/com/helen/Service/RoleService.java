@@ -26,13 +26,22 @@ public class RoleService {
         return roleRepository.findById(id);
     }
 
-    public Role addRole(Role role) {
-        return roleRepository.save(role);
-    }
+	public Role addRole(Role role) {
+	    if (roleRepository.findByRole(role.getRole()) != null) {
+	        throw new IllegalStateException("Ya existe un Role con este nombre: " + role.getRole());
+	    }
+	    
+	    return roleRepository.save(role);
+	}
 
-    public Role updateRole(Role role) {
-        return roleRepository.save(role);
-    }
+	public Role updateRole(Role role) {
+	    if (roleRepository.findById(role.getIdRole()).isEmpty()) {
+	        throw new IllegalArgumentException("No se puede actualizar, el Role no existe.");
+	    }
+	    
+	    return roleRepository.save(role);
+	}
+
 
     public boolean removeRole(Long id) {
     	return getRole(id).map(role -> {

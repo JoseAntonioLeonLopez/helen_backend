@@ -48,7 +48,7 @@ public class RoleController {
 	public ResponseEntity<Role> updateRole(@RequestBody Role role, @PathVariable("id") Long id) {
 		if(id == role.getIdRole()) {
 			return roleService.getRole(id)
-			    	.map(roleDB -> new ResponseEntity<>(roleService.addRole(role), HttpStatus.OK))
+			    	.map(roleDB -> new ResponseEntity<>(roleService.updateRole(role), HttpStatus.OK))
 			    	.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

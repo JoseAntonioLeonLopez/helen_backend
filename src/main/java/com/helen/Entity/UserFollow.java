@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class UserFollow {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user_follow")
 	private Long idUserFollow;
 	
@@ -39,12 +39,12 @@ public class UserFollow {
 	
 	//Seguidores
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "user_follow", insertable = false, updatable = false)
 	private User follower;
 	
 	//Seguidos
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "user_followed", insertable = false, updatable = false)
 	private User followed;
 	
 	
