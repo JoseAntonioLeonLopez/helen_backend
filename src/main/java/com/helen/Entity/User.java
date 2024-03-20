@@ -2,6 +2,8 @@ package com.helen.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,7 +60,7 @@ public class User {
 	private Long idRole;
 
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id_role")
+	@JoinColumn(name = "id_role", insertable = false, updatable = false)
 	private Role role;
 	
 	//Lista seguidores
@@ -74,10 +76,12 @@ public class User {
 	private List<Publication> usersPublications;
 	
 	//Lista publicaciones me gusta
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<UserFav> favoritePublications;
 	
 	//Lista de comentarios
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
 	

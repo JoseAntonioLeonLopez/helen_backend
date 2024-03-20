@@ -40,5 +40,10 @@ public class PublicationService {
 			return true;
 		}).orElse(false);
     }
+    
+    //Metodo para sacar las 10 publicaciones con mas me gustas
+	public List<Publication> getAllTopPublications() {
+		return this.publicationRepository.findTop10ByOrderByFavoriteDesc();
+	}
 	
 }

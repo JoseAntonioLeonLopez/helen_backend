@@ -18,6 +18,8 @@ import com.helen.Entity.User;
 import com.helen.Service.UserService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/users")
@@ -63,4 +65,10 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	/*@GetMapping("/followers")
+	public SomeData getMethodName(@RequestParam String param) {
+		return new SomeData();
+	}*/
+	
 }
