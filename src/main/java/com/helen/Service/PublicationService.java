@@ -31,6 +31,10 @@ public class PublicationService {
     }
 
     public Publication updatePublication(Publication publication) {
+    	if (publicationRepository.findById(publication.getIdPublication()).isEmpty()) {
+	        throw new IllegalArgumentException("No se puede actualizar, el Publication no existe.");
+	    }
+    	
         return publicationRepository.save(publication);
     }
 
