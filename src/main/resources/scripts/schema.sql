@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS publication (
     image LONGBLOB NOT NULL,
     title VARCHAR(50) NOT NULL,
     description TEXT,
-    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     city VARCHAR(100) NOT NULL,
     favorite INT NOT NULL DEFAULT 0,
     id_user INT NOT NULL,
