@@ -1,6 +1,9 @@
 package com.helen.Controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,32 +52,25 @@ public class PublicationController {
     }
 
     @PostMapping
-    public ResponseEntity<Publication> addPublication(@RequestPart("image") MultipartFile file,
-                                                      @RequestPart("title") String title,
-                                                      @RequestPart("description") String description,
-                                                      @RequestPart("city") String city,
-                                                      @RequestPart("fkUser") Long fkUser) {
-        try {
-            // Crear un nuevo objeto Publication
-            Publication publication = new Publication();
-            publication.setImage(file.getBytes()); // Asignar los bytes de la imagen
-            publication.setTitle(title);
-            publication.setDescription(description);
-            publication.setCity(city);
-            publication.setFkUser(fkUser);
-
-            // Llamar al servicio para agregar la publicación
-            Publication addedPublication = publicationService.addPublication(publication);
-
-            // Devolver la respuesta con la publicación agregada y el código de estado 201 (CREATED)
-            return new ResponseEntity<>(addedPublication, HttpStatus.CREATED);
-        } catch (IOException e) { // Maneja la IOException
-            // Maneja la excepción (por ejemplo, registra el error)
-            e.printStackTrace();
-            // Devuelve una respuesta de error con el código de estado 500 (INTERNAL_SERVER_ERROR)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+	public ResponseEntity<Publication> addPublication(@RequestBody Publication publication, @RequestParam("file") MultipartFile image) {
+    	if (!image.isEmpty()) {
+			Path imagesPublications = Paths.get("src//main//resources//static/imagesPublications");
+			String rutaAbsoluta = imagesPublications.toFile().getAbsolutePath();
+			
+			try {
+				byte[] bytesImg = image.getBytes();
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + image.getOriginalFilename());
+				Files.write(rutaCompleta, bytesImg);
+				
+				publication.setImage(image.getOriginalFilename());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    	
+		return new ResponseEntity<Publication>(publicationService.addPublication(publication), HttpStatus.CREATED);
+	}
 
     
     @PutMapping("/{id}")

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS user_follow (
 -- Crear tabla Publication si no existe
 CREATE TABLE IF NOT EXISTS publication (
     id_publication INT AUTO_INCREMENT PRIMARY KEY,
-    image LONGBLOB NOT NULL,
+    image VARCHAR(255) NOT NULL,
     title VARCHAR(50) NOT NULL,
     description TEXT,
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
