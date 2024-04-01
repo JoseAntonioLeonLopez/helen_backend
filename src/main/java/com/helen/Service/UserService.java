@@ -33,6 +33,10 @@ public class UserService {
 	        throw new IllegalStateException("Ya existe un User con este email: " + user.getEmail());
 	    }
 	    
+	    if (user.getFkRole() == null) {
+        	user.setFkRole((long) 2);
+    	}
+	    
 	    return userRepository.save(user);
 	}
 

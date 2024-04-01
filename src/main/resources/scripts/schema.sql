@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS user (
     phone_number VARCHAR(15) UNIQUE,
     image_user VARCHAR(255),
     city VARCHAR(100) NOT NULL,
-    id_role INT NOT NULL,
+    id_role INT NOT NULL DEFAULT 2,
     FOREIGN KEY (id_role) REFERENCES role(id_role)
 );
 
