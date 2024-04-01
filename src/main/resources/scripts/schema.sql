@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     phone_number VARCHAR(15) UNIQUE,
-    image_user LONGBLOB,
+    image_user VARCHAR(255),
     city VARCHAR(100) NOT NULL,
     id_role INT NOT NULL,
     FOREIGN KEY (id_role) REFERENCES role(id_role)
