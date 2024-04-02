@@ -3,6 +3,8 @@ package com.helen.Entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,11 +43,15 @@ public class Publication {
 	
 	private int favorite;
 	
+	@Column(name = "public_id") // campo adicional para almacenar el public_id de Cloudinary
+    private String publicId;
+	
 	@Column(name = "id_user")
 	private Long fkUser;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_user", insertable = false, updatable = false)
+	@JsonIgnore
 	private User usersPublication;
 	
 	//Lista de me gustas

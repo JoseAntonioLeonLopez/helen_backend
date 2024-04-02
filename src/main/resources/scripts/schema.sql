@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS publication (
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     city VARCHAR(100) NOT NULL,
     favorite INT NOT NULL DEFAULT 0,
+    public_id VARCHAR(255),
     id_user INT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user(id_user)
 );
