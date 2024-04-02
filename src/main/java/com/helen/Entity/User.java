@@ -29,6 +29,8 @@ public class User {
 	@Column(name = "id_user")
 	private Long idUser;
 	
+	private String username;
+	
 	private String name;
 	
 	@Column(name = "first_surname")
