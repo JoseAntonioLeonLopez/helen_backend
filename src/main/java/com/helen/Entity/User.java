@@ -51,6 +51,9 @@ public class User {
 	@Column(name = "image_user")
 	private String imageUser;
 	
+	@Column(name = "public_id")
+	private String publicId;
+	
 	private String city;
 	
 	@Column(name = "id_role")

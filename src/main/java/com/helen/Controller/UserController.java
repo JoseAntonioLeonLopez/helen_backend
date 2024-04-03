@@ -1,6 +1,12 @@
 package com.helen.Controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.helen.Entity.User;
+import com.helen.Service.CloudinaryService;
 import com.helen.Service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +33,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
+	
+	@Autowired
+	private final CloudinaryService cloudinaryService;
 	
 	@Autowired
 	private final UserService userService;
@@ -41,9 +53,46 @@ public class UserController {
 	}
 
     @PostMapping
-	public ResponseEntity<User> addUser(@RequestBody User user) {
-		return new ResponseEntity<User>(userService.addUser(user), HttpStatus.CREATED);
-	}
+    public ResponseEntity<?> addUser(@RequestParam("multipartFile") MultipartFile multipartFile,
+                                         @RequestParam("username") String username,
+                                         @RequestParam("name") String name,
+                                         @RequestParam("firstSurname") String firstSurname,
+                                         @RequestParam(value = "secondSurname", required = false) String secondSurname,
+                                         @RequestParam("gender") int gender,
+                                         @RequestParam("email") String email,
+                                         @RequestParam("password") String password,
+                                         @RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+                                         @RequestParam("city") String city,
+                                         @RequestParam("fkRole") Long fkRole) {
+        try {
+            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+            if (bi == null) {
+                return new ResponseEntity<>("Usuario no válido: archivo no es una imagen", HttpStatus.BAD_REQUEST);
+            }
+            Map<String, String> result = cloudinaryService.upload(multipartFile);
+            String imageUrl = result.get("url");
+            String publicId = result.get("public_id");
+
+            User user = new User();
+            user.setUsername(username);
+            user.setName(name);
+            user.setFirstSurname(firstSurname);
+            user.setSecondSurname(secondSurname);
+            user.setGender(gender);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setPhoneNumber(phoneNumber);
+            user.setCity(city);
+            user.setImageUser(imageUrl);
+            user.setPublicId(publicId);
+            user.setFkRole(fkRole);
+
+            return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error al procesar el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long id) {
@@ -57,12 +106,21 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<User> removeRole(@PathVariable("id") Long id) {
-		if (userService.removeUser(id)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<String> removeUser(@PathVariable("id") Long id) {
+		Optional<User> userOptional = userService.getUser(id);
+        if (userOptional.isEmpty()) {
+            return new ResponseEntity<>("No existe el usuario", HttpStatus.NOT_FOUND);
+        } 
+
+        User user = userOptional.get();
+        String cloudinaryPublicationId = user.getPublicId(); 
+        try {
+            cloudinaryService.delete(cloudinaryPublicationId);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Fallo al borrar la imagen del usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        userService.removeUser(id);
+        return new ResponseEntity<>("Usuario borrado", HttpStatus.OK);
 	}
 	
 	/*@GetMapping("/followers")

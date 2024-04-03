@@ -57,7 +57,7 @@ public class PublicationController {
     	return new ResponseEntity<>(publicationService.getAllTopPublications(), HttpStatus.OK);
     }
 
-    @PostMapping("/addPublication")
+    @PostMapping
     public ResponseEntity<String> addPublication(@RequestParam("multipartFile") MultipartFile multipartFile,
                                                  @RequestParam("title") String title,
                                                  @RequestParam("description") String description,
