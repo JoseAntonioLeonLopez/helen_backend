@@ -70,14 +70,15 @@ public class PublicationController {
             }
             Map<String, String> result = cloudinaryService.upload(multipartFile);
             String imageUrl = result.get("url");
+            String publicId = result.get("public_id");
 
             Publication publication = new Publication();
             publication.setImage(imageUrl);
             publication.setTitle(title);
             publication.setDescription(description);
             publication.setCity(city);
+            publication.setPublicId(publicId);
             publication.setFkUser(fkUser);
-
             publicationService.addPublication(publication);
 
             return new ResponseEntity<>("Publicacion subida", HttpStatus.CREATED);
