@@ -1,8 +1,17 @@
 package com.helen.Entity;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.helen.Service.RoleService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,13 +26,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("serial")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
+	@Autowired
+	RoleService roleService;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
@@ -84,5 +97,52 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
+
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    // Obtener el rol del usuario
+	    Optional<Role> roleOptional = roleService.getRole(fkRole);
+	    
+	    // Verificar si el rol existe
+	    if (roleOptional.isPresent()) {
+	        Role role = roleOptional.get();
+	        
+	        // Crear una lista con el rol del usuario como autoridad
+	        return List.of(new SimpleGrantedAuthority(role.getRole()));
+	    } else {
+	        // Si el rol no existe, devolver una colección vacía
+	        return Collections.emptyList();
+	    }
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public User orElseThrow(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
