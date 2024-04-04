@@ -1,10 +1,11 @@
-package com.helen.Service;
+package com.helen.Security;
 
 import java.util.Date;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.helen.Entity.User;
@@ -19,13 +20,13 @@ public class JwtService {
 
 	private String SECRET_KEY = "cbe9e16cf9ef4dfd75f9d94da7361bc49fb6981fdcc860fe7700864f519c2d1f";
 	
-	public String extractEmail(String token) {
+	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
 	
-	public boolean isValid(String token, User user) {
-		String email = extractEmail(token);
-		return (email.equals(user.getEmail())) && !isTokenExpired(token);
+	public boolean isValid(String token, UserDetails user) {
+		String username = extractUsername(token);
+		return (username.equals(user.getUsername())) && !isTokenExpired(token);
 	}
 	
 	private boolean isTokenExpired(String token) {
@@ -53,7 +54,7 @@ public class JwtService {
 	public String generateToken(User user) {
 		String token = Jwts
 				.builder()
-				.subject(user.getEmail())
+				.subject(user.getUsername())
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis()+ 24*60*60*1000))
 				.signWith(getSigninKey())

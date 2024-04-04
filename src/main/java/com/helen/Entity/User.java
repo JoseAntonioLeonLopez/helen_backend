@@ -1,17 +1,13 @@
 package com.helen.Entity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.helen.Service.RoleService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,9 +29,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
-
-	@Autowired
-	RoleService roleService;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -101,19 +94,7 @@ public class User implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-	    // Obtener el rol del usuario
-	    Optional<Role> roleOptional = roleService.getRole(fkRole);
-	    
-	    // Verificar si el rol existe
-	    if (roleOptional.isPresent()) {
-	        Role role = roleOptional.get();
-	        
-	        // Crear una lista con el rol del usuario como autoridad
-	        return List.of(new SimpleGrantedAuthority(role.getRole()));
-	    } else {
-	        // Si el rol no existe, devolver una colección vacía
-	        return Collections.emptyList();
-	    }
+		return List.of(new SimpleGrantedAuthority(role.getRole()));
 	}
 
 	@Override

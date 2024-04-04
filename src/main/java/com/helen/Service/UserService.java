@@ -27,10 +27,14 @@ public class UserService {
 	public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
     }
+	
+	public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
 	public User addUser(User user) {
-	    if (userRepository.findByEmail(user.getEmail()) != null) {
-	        throw new IllegalStateException("Ya existe un User con este email: " + user.getEmail());
+	    if (userRepository.findByUsername(user.getUsername()) != null) {
+	        throw new IllegalStateException("Ya existe un User con este username: " + user.getUsername());
 	    }
 	    
 	    if (user.getFkRole() == null) {

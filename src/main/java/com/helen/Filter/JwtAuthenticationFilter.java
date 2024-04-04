@@ -3,13 +3,13 @@ package com.helen.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.helen.Entity.User;
-import com.helen.Service.JwtService;
-import com.helen.Service.UserService;
+import com.helen.Security.JwtService;
+import com.helen.Service.UserDetailsServiceImp;
 
 import io.jsonwebtoken.io.IOException;
 import io.micrometer.common.lang.NonNull;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	private JwtService jwtService;
 	
 	@Autowired
-	private UserService userService;
+	private UserDetailsServiceImp userDetailsService;
 	
 	@Override
     protected void doFilterInternal(
@@ -42,16 +42,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
 
         String token = authHeader.substring(7);
-        String email = jwtService.extractEmail(token);
+        String username = jwtService.extractUsername(token);
 
-        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            User user = userService.getUserByEmail(email);
+        	UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-
-            if(jwtService.isValid(token, user)) {
+            if(jwtService.isValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        user, null, user.getAuthorities()
+                        userDetails, null, userDetails.getAuthorities()
                 );
 
                 authToken.setDetails(
