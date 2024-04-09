@@ -51,6 +51,13 @@ public class UserController {
 				.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+    
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
+		return userService.getUserByUsername(username)
+				.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 
     @PostMapping
     public ResponseEntity<?> addUser(@RequestParam("multipartFile") MultipartFile multipartFile,
