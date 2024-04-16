@@ -1,6 +1,6 @@
 package com.helen.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class UserFollowService {
 	        throw new IllegalArgumentException("No se puede seguir a uno mismo");
 	    }
 	    
-	    userFollow.setFollowDate(new Date());
+	    userFollow.setFollowDate(LocalDate.now());
 	    
 	    return userFollowService.save(userFollow);
 	}
@@ -43,7 +43,7 @@ public class UserFollowService {
 	        throw new IllegalArgumentException("No se puede actualizar, el UserFollow no existe.");
 	    }
 	    
-	    userFollow.setFollowDate(new Date());
+	    userFollow.setFollowDate(LocalDate.now());
 	    
 	    return userFollowService.save(userFollow);
 	}
