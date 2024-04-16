@@ -1,6 +1,6 @@
 package com.helen.Entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,7 +37,7 @@ public class Publication {
 	private String description;
 	
 	@Column(name = "created_date")
-	private Date createdDate;
+	private LocalDate createdDate;
 	
 	private String city;
 	

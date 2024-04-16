@@ -1,6 +1,6 @@
 package com.helen.Entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,7 +29,7 @@ public class UserFollow {
 	private Long idUserFollow;
 	
 	@Column(name = "follow_date")
-	private Date followDate;
+	private LocalDate followDate;
 	
 	//Seguidores
 	@Column(name = "user_follow")

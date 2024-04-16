@@ -1,6 +1,6 @@
 package com.helen.Entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class Comment {
 	private String comment;
 	
 	@Column(name = "created_date")
-	private Date createdDate;
+	private LocalDate createdDate;
 	
 	@Column(name = "id_user")
 	private Long fkUser;

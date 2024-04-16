@@ -1,5 +1,6 @@
 package com.helen.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class PublicationService {
     }
 
     public Publication addPublication(Publication publication) {
+    	publication.setCreatedDate(LocalDate.now());
         return publicationRepository.save(publication);
     }
 
