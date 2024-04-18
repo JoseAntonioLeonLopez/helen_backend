@@ -1,31 +1,43 @@
 package com.helen.Security;
 
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.helen.Entity.User;
 import com.helen.Repository.UserRepository;
+import com.helen.Service.CloudinaryService;
+
+import io.jsonwebtoken.io.IOException;
 
 @Service
 public class AuthenticationService {
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private JwtService jwtService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
-	public AuthenticationResponse register(User request) {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
+    public AuthenticationResponse register(User request) {
 		User user = new User();
 		user.setUsername(request.getUsername());
         user.setName(request.getName());
@@ -51,15 +63,17 @@ public class AuthenticationService {
         
         return new AuthenticationResponse(token);
 	}
-	
-	public AuthenticationResponse authenticate(User request) {
-		authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-				);
-		User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
-		String token = jwtService.generateToken(user);
-		
-		return new AuthenticationResponse(token);
-	}
-	
+
+
+
+    public AuthenticationResponse authenticate(User request) {
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        String token = jwtService.generateToken(user);
+
+        return new AuthenticationResponse(token);
+    }
 }
+
+

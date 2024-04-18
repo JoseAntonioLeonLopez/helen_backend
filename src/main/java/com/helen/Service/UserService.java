@@ -31,6 +31,15 @@ public class UserService {
 	public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+	
+	//Cargar la lista de publicaciones de un usuario
+	public Optional<User> getUserWithPublicationsByUsername(String username) {
+        return userRepository.findByUsername(username)
+            .map(user -> {
+                user.setUsersPublications(user.getUsersPublications()); 
+                return user;
+            });
+    }
 
 	public User addUser(User user) {
 	    if (userRepository.findByUsername(user.getUsername()) != null) {
