@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS publication (
     title VARCHAR(50) NOT NULL,
     description TEXT,
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    city VARCHAR(100) NOT NULL,
+    city VARCHAR(100),
     favorite INT NOT NULL DEFAULT 0,
     public_id VARCHAR(255),
     id_user INT NOT NULL,
