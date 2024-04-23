@@ -1,23 +1,15 @@
 package com.helen.Security;
 
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.helen.Entity.User;
 import com.helen.Repository.UserRepository;
-import com.helen.Service.CloudinaryService;
 
-import io.jsonwebtoken.io.IOException;
 
 @Service
 public class AuthenticationService {
@@ -33,9 +25,6 @@ public class AuthenticationService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    
-    @Autowired
-    private CloudinaryService cloudinaryService;
 
     public AuthenticationResponse register(User request) {
 		User user = new User();
