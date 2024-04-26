@@ -1,6 +1,8 @@
 package com.helen.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,10 +33,12 @@ public class UserFav {
 	@Column(name = "id_publication")
 	private Long fkPublication;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_user", insertable = false, updatable = false)
 	private User user;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_publication", insertable = false, updatable = false)
 	private Publication publication;

@@ -44,6 +44,21 @@ public class UserFavController {
 		return new ResponseEntity<UserFav>(userFavService.addUserFav(userFav), HttpStatus.CREATED);
 	}
     
+    @PostMapping("/{publicationId}")
+    public ResponseEntity<UserFav> addLikeToPublication(@PathVariable("publicationId") Long publicationId, @RequestBody UserFav userFav) {
+        // Seteamos el ID de la publicación al usuarioFav que recibimos
+        userFav.setFkPublication(publicationId);
+        
+        // Llamamos al servicio para agregar el like a la publicación
+        UserFav newUserFav = userFavService.addUserFav(userFav);
+        
+        if(newUserFav != null) {
+            return new ResponseEntity<>(newUserFav, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    
     @PutMapping("/{id}")
 	public ResponseEntity<UserFav> updateUserFav(@RequestBody UserFav userFav, @PathVariable("id") Long id) {
 		if(id == userFav.getIdUserFav()) {
@@ -55,12 +70,9 @@ public class UserFavController {
 		}
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<UserFav> removeUserFav(@PathVariable("id") Long id) {
-		if (userFavService.removeUserFav(id)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    @DeleteMapping("/{userId}/{publicationId}")
+    public ResponseEntity<UserFav> removeUserFav(@PathVariable("userId") Long userId, @PathVariable("publicationId") Long publicationId) {
+        userFavService.removeUserFav(userId, publicationId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
