@@ -90,15 +90,24 @@ public class PublicationController {
 
     
     @PutMapping("/{id}")
-	public ResponseEntity<Publication> updatePublication(@RequestBody Publication publication, @PathVariable("id") Long id) {
-		if (id.equals(publication.getIdPublication())) {
-			return publicationService.getPublication(id)
-			    	.map(existingPublication -> new ResponseEntity<>(publicationService.updatePublication(publication), HttpStatus.OK))
-			    	.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
+    public ResponseEntity<Publication> updatePublication(@RequestBody Publication publication, @PathVariable("id") Long id) {
+        // Verificar si el ID del objeto en la solicitud coincide con el ID proporcionado en la URL
+        if (!id.equals(publication.getIdPublication())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        // Intentar obtener la publicación existente por su ID
+        Optional<Publication> existingPublicationOptional = publicationService.getPublication(id);
+
+        // Verificar si la publicación existe
+        if (existingPublicationOptional.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Actualizar la publicación y devolver la respuesta
+        return existingPublicationOptional.map(existingPublication -> new ResponseEntity<>(publicationService.updatePublication(publication), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 	
     @DeleteMapping("/{id}")
     public ResponseEntity<String> removePublication(@PathVariable("id") Long id) {

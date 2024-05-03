@@ -39,12 +39,23 @@ public class PublicationService {
     }
 
     public Publication updatePublication(Publication publication) {
-    	if (publicationRepository.findById(publication.getIdPublication()).isEmpty()) {
-	        throw new IllegalArgumentException("No se puede actualizar, el Publication no existe.");
-	    }
-    	
-        return publicationRepository.save(publication);
+        Long publicationId = publication.getIdPublication();
+        Optional<Publication> existingPublicationOptional = publicationRepository.findById(publicationId);
+        
+        if (existingPublicationOptional.isEmpty()) {
+            throw new IllegalArgumentException("No se puede actualizar, la Publication no existe.");
+        }
+
+        Publication existingPublication = existingPublicationOptional.get();
+        
+        // Actualizando los campos de la publicación existente con los valores de la nueva publicación
+        existingPublication.setTitle(publication.getTitle());
+        existingPublication.setDescription(publication.getDescription());
+        existingPublication.setCity(publication.getCity());
+
+        return publicationRepository.save(existingPublication);
     }
+
 
     @Transactional
     public boolean removePublication(Long id) {
