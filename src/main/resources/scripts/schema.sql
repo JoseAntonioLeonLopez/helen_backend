@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS publication (
     description TEXT,
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     city VARCHAR(100),
-    favorite INT NOT NULL DEFAULT 0,
+  	favorite INT,
     public_id VARCHAR(255),
     id_user INT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user(id_user)

@@ -54,7 +54,7 @@ public class PublicationController {
     //Metodo para recoger las 10 mejores fotos
     @GetMapping("/top")
     public ResponseEntity<List<Publication>> getTop10Publications() {
-    	return new ResponseEntity<>(publicationService.getAllTopPublications(), HttpStatus.OK);
+    	return new ResponseEntity<>(publicationService.getTop10Publications(), HttpStatus.OK);
     }
 
     @PostMapping
