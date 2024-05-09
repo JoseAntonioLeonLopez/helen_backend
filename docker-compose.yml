@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  helen_backend:
+    container_name: helen_backend
+    image: helen_backend:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+     - DATABASE_URL=jdbc:mysql://helen_db:3306/helen_db
+     - DATABASE_USERNAME=admin
+     - DATABASE_PASSWORD=root
+    depends_on:
+      - helen_db
+  helen_db:
+    container_name: helen_db
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: 'helen_db'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - helen_db_volume:/var/lib/mysql
+
+volumes:
+  helen_db_volume:
