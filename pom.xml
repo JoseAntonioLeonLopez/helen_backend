@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.helen</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>helen_backend</artifactId>
 	<version>1.0.0</version>
 	<name>helen_backend</name>
 	<description>Project Helen</description>
