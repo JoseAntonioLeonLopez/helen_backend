@@ -2,8 +2,7 @@ version: '3.9'
 services:
   helen_backend:
     container_name: helen_backend
-    image: helen_backend:1.0.0
-    build: .
+    image: joseantonioleon/helen_backend:1.0.0
     ports:
       - 8080:8080
     environment:
