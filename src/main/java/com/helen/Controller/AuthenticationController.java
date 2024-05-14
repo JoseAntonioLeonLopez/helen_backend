@@ -3,7 +3,6 @@ package com.helen.Controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,7 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService authService;
 
-	@PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/register", consumes = "multipart/form-data")
 	public ResponseEntity<AuthenticationResponse> register(
 	        @RequestParam("file") MultipartFile multipartFile,
 	        @RequestParam("username") String username,
