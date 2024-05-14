@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 @Service
 public class CloudinaryService {
 
@@ -34,13 +36,25 @@ public class CloudinaryService {
         return file;
     }
     
-    @SuppressWarnings("unchecked")
-	public Map<String, String> upload(MultipartFile multipartFile) throws IOException {
+    public Map<String, String> upload(MultipartFile multipartFile) throws IOException {
+        // Convertir MultipartFile a File
         File file = convert(multipartFile);
-        Map<String, String> result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+        // Redimensionar y comprimir la imagen antes de subirla a Cloudinary
+        Thumbnails.of(file)
+                  .size(800, 600) // Tamaño máximo
+                  .outputQuality(0.8) // Calidad de compresión (0.0 - 1.0)
+                  .toFile(file);
+
+        // Subir la imagen a Cloudinary
+        @SuppressWarnings("unchecked")
+		Map<String, String> result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+        // Eliminar el archivo temporal
         if (!file.delete()) {
             throw new IOException("Failed to delete temporary file: " + file.getAbsolutePath());
         }
+
         return result;
     }
 
