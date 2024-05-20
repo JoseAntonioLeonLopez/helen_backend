@@ -34,7 +34,7 @@ public class AuthenticationService {
 	@Autowired
 	private CloudinaryService cloudinaryService;
 
-	public AuthenticationResponse register(@RequestParam("file") MultipartFile multipartFile,
+	public AuthenticationResponse register(@RequestParam(value = "file", required = false) MultipartFile multipartFile,
 			@RequestParam("username") String username, @RequestParam("name") String name,
 			@RequestParam("firstSurname") String firstSurname,
 			@RequestParam(value = "secondSurname", required = false) String secondSurname,
@@ -44,9 +44,14 @@ public class AuthenticationService {
 			@RequestParam("city") String city, @RequestParam(value = "fkRole", required = false) Long fkRole)
 			throws IOException, java.io.IOException {
 		try {
-			Map<String, String> cloudinaryResult = cloudinaryService.upload(multipartFile);
-			String imageUrl = cloudinaryResult.get("url");
-			String publicId = cloudinaryResult.get("public_id");
+			String imageUrl = null;
+			String publicId = null;
+
+			if (multipartFile != null && !multipartFile.isEmpty()) {
+				Map<String, String> cloudinaryResult = cloudinaryService.upload(multipartFile);
+				imageUrl = cloudinaryResult.get("url");
+				publicId = cloudinaryResult.get("public_id");
+			}
 
 			User user = new User();
 			user.setUsername(username);
