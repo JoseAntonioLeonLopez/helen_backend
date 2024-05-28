@@ -41,7 +41,7 @@ public class Publication {
 	
 	private String city;
 	
-	private int favorite;
+	private Integer favorite;
 	
 	@Column(name = "public_id") // campo adicional para almacenar el public_id de Cloudinary
     private String publicId;
